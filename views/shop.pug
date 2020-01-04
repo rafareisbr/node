@@ -1,0 +1,19 @@
+extends layouts/main-layout.pug
+
+block content
+    main
+        if prods.length > 0
+            div
+                each product in prods
+                    article
+                        header
+                            h1 #{product.title}
+                        div
+                            img(src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", alt="A image")
+                        div
+                            h2 $19.00
+                            p A very interesting thing
+                        div
+                            button Add to Cart
+        else
+            h1 No products to show

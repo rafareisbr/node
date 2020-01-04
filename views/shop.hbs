@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ pageTitle }}</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">Shop</a>
+                    <a href="/admin/add-product">Add Product</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>My Products</h1>
+
+        {{#if hasProducts }}
+            <div>
+                {{#each prods }}
+                    <article>
+                        <header>
+                            <h1>{{ this.title }}</h1>
+                        </header>
+
+                        <div>
+                            <img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="A image">
+                        </div>
+
+                        <div>
+                            <h2>$19.00</h2>
+                            <p>A very interesting thing</p>
+                        </div>
+
+                        <div>
+                            <button type="submit">Add to Cart</button>
+                        </div>
+                    </article>
+                {{/each }}
+            </div>
+        {{ else }}
+            <div>
+                <h2>Nothing found</h2>
+            </div>
+        {{/if }}
+    </main>
+</body>
+</html>
