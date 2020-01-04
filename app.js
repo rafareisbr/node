@@ -1,14 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const expressHps = require('express-handlebars');
 
 const app = express();
 
-app.engine('hbs', expressHps({
-    layoutsDir: 'views/layouts/'
-}));
-app.set('view engine', 'hbs');
+app.set('view engine', 'ejs');
 app.set('views', 'views'); // it is already the default
 
 const adminData = require('./routes/admin');
