@@ -7,22 +7,19 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views'); // it is already the default
 
-const adminData = require('./routes/admin');
-const shopData = require('./routes/shop');
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const errorController = require('./controllers/error');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/admin', adminData.router);
-app.use('/', shopData.router);
+app.use('/admin', adminRoutes);
+app.use('/', shopRoutes);
 
 // 404
-app.use((req, res, next) => {
-    res.status(404).render('404', { 
-        pageTitle: 'Page not found!' 
-    });
-});
+app.use(errorController.get404Page);
 
 app.listen(3000, () => {
-    console.log('Running');
+    console.log('Running on port 3000.');
 });
