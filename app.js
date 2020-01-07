@@ -9,6 +9,7 @@ app.set('views', 'views'); // it is already the default
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+
 const errorController = require('./controllers/error');
 
 app.use(bodyParser.urlencoded({ extended: false }));

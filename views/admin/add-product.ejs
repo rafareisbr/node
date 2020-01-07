@@ -1,0 +1,32 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <h2>Add novo produto</h2>
+
+    <main>
+        <form class="form" action="/admin/add-product" method="POST">
+            <div>
+                <label for="title">Titulo</label>
+                <input type="text" name="title">
+            </div>
+            <div>
+                <label for="imageUrl">Url da Imagem</label>
+                <input type="text" name="imageUrl">
+            </div>
+            <div>
+                <label for="price">Preço</label>
+                <input type="number" name="price" step="0.01">
+            </div>
+            <div>
+                <label for="description">Descrição</label>
+                <textarea name="description" rows="5"></textarea>
+            </div>
+
+            <button type="submit">Add Product</button>
+        </form>
+    </main>
+
+<%- include('../includes/end.ejs') %>
