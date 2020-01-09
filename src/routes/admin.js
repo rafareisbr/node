@@ -5,7 +5,7 @@ const adminController = require('../controllers/admin')
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  res.send('Sucesso')
+  res.send(__dirname)
 })
 
 router.get('/add-product', adminController.getAddProduct)
