@@ -1,0 +1,13 @@
+env:
+  browser: true
+  commonjs: true
+  es6: true
+extends: ['eslint:recommended', 'prettier', 'plugin:prettier/recommended']
+globals:
+  __dirname: writable
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parserOptions:
+  ecmaVersion: 2018
+rules: { 'prettier/prettier': 'error' }
+plugins: [ 'prettier' ]
