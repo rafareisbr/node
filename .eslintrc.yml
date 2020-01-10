@@ -12,6 +12,7 @@ plugins: [
   ]
 globals:
   __dirname: writable
+  process: writable
   Atomics: readonly
   SharedArrayBuffer: readonly
 parserOptions:

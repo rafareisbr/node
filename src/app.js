@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const path = require('path')
 
 const app = express()
-const port = 3000
+const port = 3000 || process.env.PORT
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views')) // it is already the default

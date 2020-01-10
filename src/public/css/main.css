@@ -6,6 +6,7 @@
 
 body {
     font-size: 100%;
+    font-family: sans-serif;
 }
 
 .form {
@@ -32,4 +33,19 @@ body {
 
 .form button:hover {
     background-color: #0000aa;
+}
+
+.product__list {
+    margin: 0 auto;
+    max-width: 90vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min-content, 20em));
+    grid-row-gap: 1rem;
+    grid-column-gap: 1rem;
+}
+
+.list__item {
+    max-width: 20em;
+    border: 1px solid #ccc;
+    padding: 1rem;
 }

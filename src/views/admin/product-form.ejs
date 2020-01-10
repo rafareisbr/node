@@ -1,0 +1,33 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <h2><%= pageTitle %></h2>
+
+    <main>
+        <form class="form"
+            action="/admin/<% if (editing) { %>edit-product/<%= product.id %><% } else { %>add-product/<% } %>"
+            method="POST">
+            <div>
+                <label for="title">Titulo</label>
+                <input type="text" name="title" value="<% if (editing) { %><%=product.title%><% } %>">
+            </div>
+            <div>
+                <label for="imageUrl">Url da Imagem</label>
+                <input type="text" name="imageUrl" value="<% if (editing) { %><%=product.imageUrl%><% } %>">
+            </div>
+            <div>
+                <label for="price">Preço</label>
+                <input type="number" name="price" step="0.01" value="<% if (editing) { %><%=product.price%><% } %>">
+            </div>
+            <div>
+                <label for="description">Descrição</label>
+                <textarea name="description" rows="5"><% if (editing) { %><%=product.description%><% } %></textarea>
+            </div>
+            <button type="submit"><%= editing ? 'Atualizar' : 'Salvar' %></button>
+        </form>
+    </main>
+
+    <%- include('../includes/end.ejs') %>

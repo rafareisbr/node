@@ -1,8 +1,10 @@
 const Product = require('../models/product')
 
 exports.getAddProduct = (req, res) => {
-  res.render('admin/add-product', {
-    pageTitle: 'Adicionar Produto'
+  res.render('admin/product-form', {
+    pageTitle: 'Adicionar Produto',
+    editing: false,
+    product: new Product()
   })
 }
 
@@ -11,17 +13,46 @@ exports.postAddProduct = (req, res) => {
   const description = req.body.description
   const price = req.body.price
   const imageUrl = req.body.imageUrl
-  const product = new Product(title, imageUrl, description, price)
+  const product = new Product(null, title, imageUrl, description, price)
   product.save()
   res.redirect('/')
+}
+
+exports.getEditProduct = (req, res) => {
+  const productId = req.params.productId
+  Product.findById(productId, product => {
+    if (!product) {
+      return res.status(404).redirect('/404')
+    }
+    res.render('admin/product-form', {
+      editing: true,
+      pageTitle: 'Editar Produto',
+      product: product
+    })
+  })
+}
+
+exports.postEditProduct = (req, res) => {
+  const id = req.params.productId
+  const title = req.body.title
+  const description = req.body.description
+  const price = req.body.price
+  const imageUrl = req.body.imageUrl
+  const updatedProduct = new Product(id, title, imageUrl, description, price)
+  updatedProduct.save()
+  res.redirect('/admin/products')
+}
+
+exports.getDeleteProduct = (req, res) => {
+  const productId = req.params.productId
+  Product.deleteById(productId)
 }
 
 exports.getProducts = (req, res) => {
   Product.fetchAll(function(products) {
     res.render('admin/product-list', {
-      prods: products,
-      pageTitle: 'Admin - Products',
-      path: '/admin/products'
+      products: products,
+      pageTitle: 'Admin - Products'
     })
   })
 }
