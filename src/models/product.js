@@ -2,6 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const process = require('process')
 
+const Cart = require('./cart')
+
 const dirpath = path.join(
   path.dirname(process.mainModule.filename),
   'data',
@@ -9,7 +11,7 @@ const dirpath = path.join(
 )
 
 const getProductsFromFile = function(callback) {
-  fs.readFile(dirpath, (error, data) => {
+  fs.readFile(dirpath, 'utf-8', (error, data) => {
     let products = []
     if (error) {
       return callback(products)
@@ -54,11 +56,15 @@ module.exports = class Product {
     })
   }
 
-  static deleteById(id) {
+  static deleteById(id, callback) {
     getProductsFromFile(products => {
+      const product = products.find(product => product.id === id)
       const updatedProducts = products.filter(product => product.id !== id)
       fs.writeFile(dirpath, JSON.stringify(updatedProducts), err => {
         console.log(err)
+        if(!err) {
+          Cart.deleteProductById(product.id, product.price)
+        }
       })
     })
   }

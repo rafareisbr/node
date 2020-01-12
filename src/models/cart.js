@@ -7,17 +7,35 @@ const dirpath = path.join(
   'cart.json'
 )
 
+const getCartFromFile = function(callback) {
+  fs.readFile(dirpath, 'utf-8', (error, data) => {
+    let cart = { products: [], totalPrice: 0 }
+    if (error || data.length === 0) {
+      return callback(cart)
+    }
+    return callback(JSON.parse(data))
+  })
+}
+
+const saveCartToFile = (updatedCart) => {
+  fs.writeFile(dirpath, JSON.stringify(updatedCart), err => {
+    console.log(err)
+  })
+}
+
 module.exports = class Cart {
-  static addProduct(productId, productPrice) {
+  
+  static addProduct(productId, productPrice, callback) {
     //fetch previous cart
-    fs.readFile(dirpath, (err, fileContent) => {
+
+    return getCartFromFile(fileContent => {
       // inicializa o carrinho
       let cart = { products: [], totalPrice: 0 }
 
       // if there is no errors trying read the file storage
-      if (!err) {
+      if (fileContent) {
         // take the cart data
-        cart = JSON.parse(fileContent)
+        cart = fileContent
 
         // check if the cart already contains the product
         const existingProductIndex = cart.products.findIndex(
@@ -38,11 +56,23 @@ module.exports = class Cart {
           cart.products = [...cart.products, updatedProduct]
         }
         // the + before productPrice makes it Integer
-        cart.totalPrice = cart.totalPrice + +productPrice
-        fs.writeFile(dirpath, JSON.stringify(cart), err => {
-          console.log(err)
-        })
+        cart.totalPrice = parseInt(cart.totalPrice) + parseInt(productPrice)
+        saveCartToFile(cart)
       }
     })
   }
+
+  static deleteProductById(productId, productPrice) {
+    getCartFromFile(cart => {
+      const updatedCart = { ...cart }
+      const product = cart.products.find(product => product.id === productId)
+      if(!product) return
+      updatedCart.products = cart.products.filter(product => product.id !== productId)
+      updatedCart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice)
+      saveCartToFile(updatedCart, success => {
+        console.log('Produto removido do carrinho')
+      })
+    })
+  }
+
 }
