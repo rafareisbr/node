@@ -10,8 +10,6 @@ router.get('/products', shopController.getProducts)
 
 router.get('/products/:productId', shopController.getProduct)
 
-router.post('/products/delete', shopController.getProducts)
-
 router.get('/cart', shopController.getCart)
 
 router.post('/cart', shopController.postCart)

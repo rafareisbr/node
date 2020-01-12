@@ -57,7 +57,9 @@ module.exports = class Product {
   static deleteById(id) {
     getProductsFromFile(products => {
       const updatedProducts = products.filter(product => product.id !== id)
-      console.log(updatedProducts)
+      fs.writeFile(dirpath, JSON.stringify(updatedProducts), err => {
+        console.log(err)
+      })
     })
   }
 
