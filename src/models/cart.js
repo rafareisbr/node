@@ -17,15 +17,14 @@ const getCartFromFile = function(callback) {
   })
 }
 
-const saveCartToFile = (updatedCart) => {
+const saveCartToFile = updatedCart => {
   fs.writeFile(dirpath, JSON.stringify(updatedCart), err => {
     console.log(err)
   })
 }
 
 module.exports = class Cart {
-  
-  static addProduct(productId, productPrice, callback) {
+  static addProduct(productId, productPrice) {
     //fetch previous cart
 
     return getCartFromFile(fileContent => {
@@ -66,13 +65,13 @@ module.exports = class Cart {
     getCartFromFile(cart => {
       const updatedCart = { ...cart }
       const product = cart.products.find(product => product.id === productId)
-      if(!product) return
-      updatedCart.products = cart.products.filter(product => product.id !== productId)
-      updatedCart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice)
-      saveCartToFile(updatedCart, success => {
-        console.log('Produto removido do carrinho')
-      })
+      if (!product) return
+      updatedCart.products = cart.products.filter(
+        product => product.id !== productId
+      )
+      updatedCart.totalPrice =
+        parseInt(cart.totalPrice) - parseInt(productPrice) * product.qtd
+      saveCartToFile(updatedCart)
     })
   }
-
 }
