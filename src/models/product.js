@@ -59,11 +59,13 @@ module.exports = class Product {
     static deleteById(id) {
         getProductsFromFile(products => {
             const product = products.find(product => product.id === id)
+            if (!product) {
+                return
+            }
             const updatedProducts = products.filter(
                 product => product.id !== id
             )
             fs.writeFile(dirpath, JSON.stringify(updatedProducts), err => {
-                console.log(err)
                 if (!err) {
                     Cart.deleteProductById(product.id, product.price, () => {
                         console.log('produto removido do carrinho com sucesso')

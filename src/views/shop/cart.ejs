@@ -15,6 +15,7 @@
             <p>
                 <form action="/cart/remove-product" method="post">
                     <input type="hidden" name="productId" value="<%= item.product.id %>">
+                    <input type="hidden" name="productPrice" value="<%= item.product.price %>">
                     <button type="submit">Remover</button>
                 </form>
             </p>

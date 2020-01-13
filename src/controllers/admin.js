@@ -40,13 +40,13 @@ exports.postEditProduct = (req, res) => {
     const imageUrl = req.body.imageUrl
     const updatedProduct = new Product(id, title, imageUrl, description, price)
     updatedProduct.save()
-    res.redirect('/admin/products')
+    res.redirect('/admin/products/')
 }
 
 exports.postDeleteProduct = (req, res) => {
     const productId = req.body.productId
     Product.deleteById(productId)
-    res.redirect('/admin/products')
+    res.redirect('/admin/products/')
 }
 
 exports.getProducts = (req, res) => {

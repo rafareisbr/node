@@ -19,15 +19,14 @@ const getCartFromFile = function(callback) {
 
 const saveCartToFile = (updatedCart, callback) => {
     fs.writeFile(dirpath, JSON.stringify(updatedCart), err => {
-        console.log(err)
         if (!err) {
-            callback('')
+            return callback()
         }
     })
 }
 
 module.exports = class Cart {
-    static addProduct(productId, productPrice) {
+    static addProduct(productId, productPrice, callback) {
         //fetch previous cart
 
         return getCartFromFile(fileContent => {
@@ -60,7 +59,9 @@ module.exports = class Cart {
                 // the + before productPrice makes it Integer
                 cart.totalPrice =
                     parseInt(cart.totalPrice) + parseInt(productPrice)
-                saveCartToFile(cart)
+                saveCartToFile(cart, () => {
+                    callback('')
+                })
             }
         })
     }
@@ -77,8 +78,10 @@ module.exports = class Cart {
             )
             updatedCart.totalPrice =
                 parseInt(cart.totalPrice) - parseInt(productPrice) * product.qtd
-            saveCartToFile(updatedCart)
-            callback('')
+
+            saveCartToFile(updatedCart, () => {
+                callback()
+            })
         })
     }
 

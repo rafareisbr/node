@@ -50,14 +50,15 @@ exports.getCart = (req, res) => {
 exports.postCart = (req, res) => {
     const productId = req.body.productId
     Product.findById(productId, product => {
-        Cart.addProduct(productId, product.price)
+        Cart.addProduct(productId, product.price, () => {
+            res.redirect('/cart')
+        })
     })
-    res.redirect('/cart')
 }
 
 exports.postRemoveCartProduct = (req, res) => {
     const productId = req.body.productId
-    const productPrice = req.body.price
+    const productPrice = req.body.productPrice
     Cart.deleteProductById(productId, productPrice, () => {
         res.redirect('/cart')
     })
