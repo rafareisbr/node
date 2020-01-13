@@ -23,5 +23,5 @@ app.use('/', shopRoutes)
 app.use(errorController.get404Page)
 
 app.listen(port, () => {
-  console.log('Running on port ' + port)
+    console.log('Running on port ' + port)
 })

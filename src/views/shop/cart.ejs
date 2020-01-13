@@ -4,4 +4,24 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-<%- include('../includes/end.ejs') %>
+    <% if (cart.length > 0) { %>
+    <ul>
+        <% for (let item of cart) { %>
+        <li>
+            <h3><%= item.product.title %></h3>
+            <p><%= item.product.description %></p>
+            <p>Quant. x<%= item.qtd %> -
+                Total R$<%= item.product.price * item.qtd %></p>
+            <p>
+                <form action="/cart/remove-product" method="post">
+                    <input type="hidden" name="productId" value="<%= item.product.id %>">
+                    <button type="submit">Remover</button>
+                </form>
+            </p>
+        </li>
+        <% } %>
+    </ul>
+    <% } else { %>
+    <p>Nenhum produto no carrinho. =(</p>
+    <% } %>
+    <%- include('../includes/end.ejs') %>
