@@ -1,31 +1,4 @@
-const fs = require('fs')
-const path = require('path')
-
-const dirpath = path.join(
-    path.dirname(process.mainModule.filename),
-    'data',
-    'cart.json'
-)
-
-const getCartFromFile = function(callback) {
-    fs.readFile(dirpath, 'utf-8', (error, data) => {
-        let cart = { products: [], totalPrice: 0 }
-        if (error || data.length === 0) {
-            return callback(cart)
-        }
-        return callback(JSON.parse(data))
-    })
-}
-
-const saveCartToFile = (updatedCart, callback) => {
-    fs.writeFile(dirpath, JSON.stringify(updatedCart), err => {
-        if (!err) {
-            return callback()
-        }
-    })
-}
-
-module.exports = class Cart {
+class Cart {
     static addProduct(productId, productPrice, callback) {
         //fetch previous cart
 
@@ -91,3 +64,5 @@ module.exports = class Cart {
         })
     }
 }
+
+module.exports = Cart

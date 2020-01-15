@@ -11,10 +11,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views')) // it is already the default
 
+const errorController = require('./controllers/error')
+
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
-
-const errorController = require('./controllers/error')
 
 app.use('/admin', adminRoutes)
 app.use('/', shopRoutes)
