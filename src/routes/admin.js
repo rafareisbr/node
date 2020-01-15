@@ -4,10 +4,6 @@ const adminController = require('../controllers/admin')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    res.send(__dirname, 'views', 'shop', 'index')
-})
-
 router.get('/add-product', adminController.getAddProduct)
 
 router.post('/add-product', adminController.postAddProduct)
