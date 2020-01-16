@@ -60,7 +60,11 @@ sequelize
         }
         return Promise.resolve(user)
     })
-    .then(() => {
+    .then(user => {
+        Cart.create({ userId: user })
+            .then(() => {})
+            .catch(err => console.error(err))
+
         app.listen(port, () => {
             console.log('Running on port ' + port)
         })

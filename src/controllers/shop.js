@@ -1,5 +1,5 @@
 const Product = require('../models/product')
-// const Cart = require('../models/cart')
+const Cart = require('../models/cart')
 
 exports.getIndex = (req, res) => {
     res.render('shop/index', {
@@ -35,21 +35,18 @@ exports.getProduct = (req, res) => {
 }
 
 exports.getCart = (req, res) => {
-    // Cart.getCart(dbCart => {
-    //     Product.fetchAll(products => {
-    //         const cart = []
-    //         for (let cartProd of dbCart.products) {
-    //             const cartProduct = products.find(
-    //                 product => product.id === cartProd.id
-    //             )
-    //             cart.push({ product: cartProduct, qtd: cartProd.qtd })
-    //         }
-    //         res.render('shop/cart', {
-    //             pageTitle: 'Your cart',
-    //             cart: cart
-    //         })
-    //     })
-    // })
+    Cart.findOne({
+        where: {
+            id: req.user.id
+        }
+    })
+        .then(cart => {
+            res.render('shop/cart', {
+                pageTitle: 'Your cart',
+                cart: cart
+            })
+        })
+        .catch(err => console.error(err))
 }
 
 exports.postCart = (req, res) => {
