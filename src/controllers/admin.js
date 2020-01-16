@@ -4,7 +4,7 @@ exports.getAddProduct = (req, res) => {
     res.render('admin/product-form', {
         pageTitle: 'Adicionar Produto',
         editing: false,
-        product: new Product()
+        product: Product.build()
     })
 }
 
@@ -19,7 +19,8 @@ exports.postAddProduct = (req, res) => {
         title: title,
         description: description,
         price: price,
-        imageUrl: imageUrl
+        imageUrl: imageUrl,
+        userId: req.user.id
     })
         .then(() => {
             console.log('Product Created')
@@ -69,9 +70,14 @@ exports.postEditProduct = (req, res) => {
 
 exports.postDeleteProduct = (req, res) => {
     const productId = req.body.productId
-    Product.deleteOne(productId)
-        .then(() => {
-            res.redirect('/admin/products/')
+    Product.findByPk(productId)
+        .then(product => {
+            product
+                .destroy(productId)
+                .then(() => {
+                    res.redirect('/admin/products/')
+                })
+                .catch(err => console.error(err))
         })
         .catch(err => console.error(err))
 }

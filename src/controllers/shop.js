@@ -8,7 +8,11 @@ exports.getIndex = (req, res) => {
 }
 
 exports.getProducts = (req, res) => {
-    Product.findAll()
+    Product.findAll({
+        where: {
+            userId: req.user.id
+        }
+    })
         .then(products => {
             res.render('shop/product-list', {
                 products: products,
