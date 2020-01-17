@@ -1,6 +1,17 @@
 const Product = require('../models/product')
 
-exports.getAddProduct = (req, res) => {
+exports.getProductsListPage = (req, res) => {
+    Product.findAll()
+        .then(products => {
+            res.render('admin/product-list', {
+                products: products,
+                pageTitle: 'Admin - Products'
+            })
+        })
+        .catch(err => console.error(err))
+}
+
+exports.getAddProductPage = (req, res) => {
     res.render('admin/product-form', {
         pageTitle: 'Adicionar Produto',
         editing: false,
@@ -29,7 +40,7 @@ exports.postAddProduct = (req, res) => {
         .catch()
 }
 
-exports.getEditProduct = (req, res) => {
+exports.getUpdateProductPage = (req, res) => {
     const productId = req.params.productId
     Product.findByPk(productId)
         .then(product => {
@@ -44,7 +55,7 @@ exports.getEditProduct = (req, res) => {
         })
 }
 
-exports.postEditProduct = (req, res) => {
+exports.postUpdateProduct = (req, res) => {
     const id = req.params.productId
     const title = req.body.title
     const description = req.body.description
@@ -78,17 +89,6 @@ exports.postDeleteProduct = (req, res) => {
                     res.redirect('/admin/products/')
                 })
                 .catch(err => console.error(err))
-        })
-        .catch(err => console.error(err))
-}
-
-exports.getProducts = (req, res) => {
-    Product.findAll()
-        .then(products => {
-            res.render('admin/product-list', {
-                products: products,
-                pageTitle: 'Admin - Products'
-            })
         })
         .catch(err => console.error(err))
 }

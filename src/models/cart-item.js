@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 const sequelize = require('../database/config')
 
-const CartItem = sequelize.define('cart-item', {
+const CartItem = sequelize.define('cartItem', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,

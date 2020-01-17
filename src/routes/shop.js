@@ -4,20 +4,20 @@ const shopController = require('../controllers/shop')
 
 const router = express.Router()
 
-router.get('/', shopController.getIndex)
+router.get('/', shopController.getIndexPage)
 
-router.get('/products', shopController.getProducts)
+router.get('/products', shopController.getProductsListPage)
 
-router.get('/products/:productId', shopController.getProduct)
+router.get('/products/:productId', shopController.getProductPage)
 
-router.get('/cart', shopController.getCart)
+router.get('/cart', shopController.getCartPage)
 
-router.post('/cart', shopController.postCart)
+router.post('/cart', shopController.postAddProductToCart)
 
-router.post('/cart/remove-product', shopController.postRemoveCartProduct)
+router.post('/cart/remove-product', shopController.postRemoveProductFromCart)
 
 router.get('/orders', shopController.getOrders)
 
-router.get('/checkout', shopController.getCheckout)
+router.get('/checkout', shopController.getCheckoutPage)
 
 module.exports = router

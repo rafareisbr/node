@@ -4,18 +4,18 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-    <% if (cart.length > 0) { %>
+    <% if (products.length > 0) { %>
     <ul>
-        <% for (let item of cart) { %>
+        <% for (let product of products) { %>
         <li>
-            <h3><%= item.product.title %></h3>
-            <p><%= item.product.description %></p>
-            <p>Quant. x<%= item.qtd %> -
-                Total R$<%= item.product.price * item.qtd %></p>
+            <h3><%= product.title %></h3>
+            <p><%= product.description %></p>
+            <p>Quant. x<%= product.cartItem.quantity %> -
+                Total R$<%= product.price * product.cartItem.quantity %></p>
             <p>
                 <form action="/cart/remove-product" method="post">
-                    <input type="hidden" name="productId" value="<%= item.product.id %>">
-                    <input type="hidden" name="productPrice" value="<%= item.product.price %>">
+                    <input type="hidden" name="productId" value="<%= product.id %>">
+                    <input type="hidden" name="productPrice" value="<%= product.price %>">
                     <button type="submit">Remover</button>
                 </form>
             </p>

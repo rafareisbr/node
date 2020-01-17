@@ -61,12 +61,19 @@ sequelize
         return Promise.resolve(user)
     })
     .then(user => {
-        Cart.create({ userId: user })
-            .then(() => {})
+        Cart.findByPk(1)
+            .then(cart => {
+                if (!cart) {
+                    Cart.create({ userId: user.id })
+                        .then(() => {})
+                        .catch(err => console.error(err))
+                } else {
+                    return Promise.resolve(cart)
+                }
+            })
             .catch(err => console.error(err))
-
-        app.listen(port, () => {
-            console.log('Running on port ' + port)
-        })
+    })
+    .then(() => {
+        app.listen(port)
     })
     .catch(err => console.log(err))
