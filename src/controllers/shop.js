@@ -1,5 +1,4 @@
 const Product = require('../models/product')
-const CartItem = require('../models/cart-item')
 
 exports.getIndexPage = (req, res) => {
     res.render('shop/index', {
