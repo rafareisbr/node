@@ -1,6 +1,9 @@
 Colorize Bracket Pairs
 https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer
 
+Color Highlight
+https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
+
 Auto complete, Auto close and Auto rename tags
 https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-complete-tag
 
