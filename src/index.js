@@ -8,6 +8,7 @@ const Product = require('./models/product')
 const Cart = require('./models/cart')
 const CartItem = require('./models/cart-item')
 const Order = require('./models/order')
+const OrderItem = require('./models/order-item')
 
 const errorController = require('./controllers/error')
 const adminRoutes = require('./routes/admin')
@@ -37,16 +38,19 @@ app.use('/', shopRoutes)
 // 404
 app.use(errorController.get404Page)
 
-User.hasMany(Product)
 User.hasOne(Cart)
-Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
-Cart.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
-Cart.hasMany(CartItem)
-Cart.belongsToMany(Product, { through: CartItem })
-Product.belongsToMany(Cart, { through: CartItem })
-Order.hasMany(CartItem)
-Order.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
+User.hasMany(Product)
 User.hasMany(Order)
+
+Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
+Product.belongsToMany(Cart, { through: CartItem })
+Product.belongsToMany(Order, { through: OrderItem })
+
+Cart.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
+Cart.belongsToMany(Product, { through: CartItem })
+
+Order.belongsTo(User, { constraints: true, onDelete: 'CASCADE' })
+Order.belongsToMany(Product, { through: OrderItem })
 
 sequelize
     // .sync({ force: true }) // force overrides the database data, NOT FOR PRODUCTION

@@ -18,6 +18,8 @@ router.post('/cart/remove-product', shopController.postRemoveProductFromCart)
 
 router.get('/orders', shopController.getOrders)
 
+router.post('/orders/add-order', shopController.postAddOrder)
+
 router.get('/checkout', shopController.getCheckoutPage)
 
 module.exports = router

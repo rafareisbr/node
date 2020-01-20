@@ -4,4 +4,19 @@
 <body>
 <%- include('../includes/navigation.ejs') %>
 
-<%- include('../includes/end.ejs') %>
+<% if (orders.length > 0) { %>
+
+    <% orders.forEach(order => { %>
+        <p><%= order.id %></p>
+        <ul>
+            <% for (let item of order.products ) { %>
+                <li><%= item.title %> (<%= item.orderItem.quantity %>)</li>
+            <% } %>
+        </ul>
+    <% }) %>
+
+    <% } else { %>
+        <p>No order to show</p>
+    <% } %>
+
+    <%- include('../includes/end.ejs') %>

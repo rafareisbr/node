@@ -22,6 +22,9 @@
         </li>
         <% } %>
     </ul>
+    <form method="post" action="/orders/add-order">
+        <button type="submit">Order now</button>
+    </form>
     <% } else { %>
     <p>Nenhum produto no carrinho. =(</p>
     <% } %>

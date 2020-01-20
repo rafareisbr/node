@@ -1,4 +1,5 @@
 const Product = require('../models/product')
+const Order = require('../models/order')
 
 exports.getIndexPage = (req, res) => {
     res.render('shop/index', {
@@ -94,14 +95,53 @@ exports.postRemoveProductFromCart = (req, res) => {
         .catch(err => console.log(err))
 }
 
+exports.getOrders = (req, res) => {
+    req.user
+        .getOrders({ include: ['products'] })
+        .then(orders => {
+            res.render('shop/orders', {
+                pageTitle: 'Your Orders',
+                orders: orders
+            })
+        })
+        .catch(err => console.log(err))
+}
+
+exports.postAddOrder = (req, res) => {
+    let fetchedCart = null
+
+    req.user
+        .getCart()
+        .then(cart => {
+            fetchedCart = cart
+            return cart.getProducts()
+        })
+        .then(products => {
+            req.user
+                .createOrder()
+                .then(order => {
+                    return order.addProducts(
+                        products.map(product => {
+                            product.orderItem = {
+                                quantity: product.cartItem.quantity
+                            }
+                            return product
+                        })
+                    )
+                })
+                .then(() => {
+                    return fetchedCart.setProducts(null)
+                })
+                .then(() => {
+                    res.redirect('/')
+                })
+                .catch(err => console.log(err))
+        })
+        .catch(err => console.error(err))
+}
+
 exports.getCheckoutPage = (req, res) => {
     res.render('shop/checkout', {
         pageTitle: 'Make your checkout'
-    })
-}
-
-exports.getOrders = (req, res) => {
-    res.render('shop/orders', {
-        pageTitle: 'Your Orders'
     })
 }
