@@ -4,10 +4,17 @@
             <li>
                 <a href="/">Shop</a>
                 <a href="/products">Products</a>
+                <% if (isAuthenticated) { %>
                 <a href="/cart">Cart</a>
                 <a href="/orders">Orders</a>
                 <a href="/admin/add-product">Add Product</a>
                 <a href="/admin/products">Admin Product</a>
+                <form action="/auth/logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+                <% } else { %>
+                <a href="/auth/login">Login</a>
+                <% } %>
             </li>
         </ul>
     </nav>

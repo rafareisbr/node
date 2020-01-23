@@ -1,7 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
+const cookieParser = require('cookie-parser')
 const sequelize = require('./database/config')
+const session = require('express-session')
+const helmet = require('helmet')
 
 const User = require('./models/user')
 const Product = require('./models/product')
@@ -13,6 +16,7 @@ const OrderItem = require('./models/order-item')
 const errorController = require('./controllers/error')
 const adminRoutes = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
+const authRoutes = require('./routes/auth')
 
 const app = express()
 const port = 3000 || process.env.PORT
@@ -20,19 +24,31 @@ const port = 3000 || process.env.PORT
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
+app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(
+    session({
+        secret: 'session_secret',
+        resave: false,
+        saveUninitialized: false
+    })
+)
+app.use(cookieParser())
 
 app.use((req, res, next) => {
     User.findByPk(1)
         .then(user => {
-            req.user = user
+            if (req.session.isLoggedIn) {
+                req.session.user = user
+            }
             next()
         })
         .catch(err => console.error(err))
 })
 
 app.use('/admin', adminRoutes)
+app.use('/auth', authRoutes)
 app.use('/', shopRoutes)
 
 // 404
