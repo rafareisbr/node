@@ -5,7 +5,8 @@ exports.getProductsListPage = (req, res) => {
         .then(products => {
             res.render('admin/product-list', {
                 products: products,
-                pageTitle: 'Admin - Products'
+                pageTitle: 'Admin - Products',
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => console.error(err))
@@ -15,7 +16,8 @@ exports.getAddProductPage = (req, res) => {
     res.render('admin/product-form', {
         pageTitle: 'Adicionar Produto',
         editing: false,
-        product: Product.build()
+        product: Product.build(),
+        isAuthenticated: req.session.isLoggedIn
     })
 }
 
@@ -31,7 +33,7 @@ exports.postAddProduct = (req, res) => {
         description: description,
         price: price,
         imageUrl: imageUrl,
-        userId: req.user.id
+        userId: req.session.user.id
     })
         .then(() => {
             console.log('Product Created')
@@ -47,7 +49,8 @@ exports.getUpdateProductPage = (req, res) => {
             res.render('admin/product-form', {
                 editing: true,
                 pageTitle: 'Editar Produto',
-                product: product
+                product: product,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(() => {

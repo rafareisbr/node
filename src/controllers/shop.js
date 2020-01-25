@@ -2,20 +2,18 @@ const Product = require('../models/product')
 
 exports.getIndexPage = (req, res) => {
     res.render('shop/index', {
-        pageTitle: 'Shop'
+        pageTitle: 'Shop',
+        isAuthenticated: req.session.isLoggedIn
     })
 }
 
 exports.getProductsListPage = (req, res) => {
-    Product.findAll({
-        where: {
-            userId: req.user.id
-        }
-    })
+    Product.findAll()
         .then(products => {
             res.render('shop/product-list', {
                 products: products,
-                pageTitle: 'All Products'
+                pageTitle: 'All Products',
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => console.error(err))
@@ -27,18 +25,20 @@ exports.getProductPage = (req, res) => {
         .then(product => {
             res.render('shop/product-detail', {
                 product: product,
-                pageTitle: 'Shop'
+                pageTitle: 'Shop',
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => console.error(err))
 }
 
 exports.getCartPage = (req, res) => {
-    req.user.getCart().then(cart => {
+    req.session.user.getCart().then(cart => {
         cart.getProducts().then(products => {
             res.render('shop/cart', {
                 pageTitle: 'Your cart',
-                products: products
+                products: products,
+                isAuthenticated: req.session.isLoggedIn
             })
         })
     })
@@ -48,7 +48,7 @@ exports.postAddProductToCart = (req, res) => {
     const prodId = req.body.productId
     let fetchedCart = null
     let newQuantity = 1
-    req.user
+    req.session.user
         .getCart()
         .then(cart => {
             fetchedCart = cart
@@ -79,7 +79,7 @@ exports.postAddProductToCart = (req, res) => {
 
 exports.postRemoveProductFromCart = (req, res) => {
     const prodId = req.body.productId
-    req.user.cart
+    req.session.user.cart
         .getCart()
         .then(cart => {
             return cart.getProducts({ where: { id: prodId } })
@@ -94,14 +94,55 @@ exports.postRemoveProductFromCart = (req, res) => {
         .catch(err => console.log(err))
 }
 
-exports.getCheckoutPage = (req, res) => {
-    res.render('shop/checkout', {
-        pageTitle: 'Make your checkout'
-    })
+exports.getOrders = (req, res) => {
+    req.session.user
+        .getOrders({ include: ['products'] })
+        .then(orders => {
+            res.render('shop/orders', {
+                pageTitle: 'Your Orders',
+                orders: orders,
+                isAuthenticated: req.session.isLoggedIn
+            })
+        })
+        .catch(err => console.log(err))
 }
 
-exports.getOrders = (req, res) => {
-    res.render('shop/orders', {
-        pageTitle: 'Your Orders'
+exports.postAddOrder = (req, res) => {
+    let fetchedCart = null
+
+    req.session.user
+        .getCart()
+        .then(cart => {
+            fetchedCart = cart
+            return cart.getProducts()
+        })
+        .then(products => {
+            req.session.user
+                .createOrder()
+                .then(order => {
+                    return order.addProducts(
+                        products.map(product => {
+                            product.orderItem = {
+                                quantity: product.cartItem.quantity
+                            }
+                            return product
+                        })
+                    )
+                })
+                .then(() => {
+                    return fetchedCart.setProducts(null)
+                })
+                .then(() => {
+                    res.redirect('/')
+                })
+                .catch(err => console.log(err))
+        })
+        .catch(err => console.error(err))
+}
+
+exports.getCheckoutPage = (req, res) => {
+    res.render('shop/checkout', {
+        pageTitle: 'Make your checkout',
+        isAuthenticated: req.session.isLoggedIn
     })
 }

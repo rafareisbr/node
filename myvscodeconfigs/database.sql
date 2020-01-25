@@ -22,6 +22,25 @@ CREATE TABLE IF NOT EXISTS "products" (
     PRIMARY KEY ("id")
 )
 
+CREATE TABLE IF NOT EXISTS "orders" (
+    "id"   SERIAL ,
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "userId" INTEGER REFERENCES "users" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "orderItems" (
+    "id"   SERIAL ,
+    "quantity" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+    "productId" INTEGER REFERENCES "products" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "orderId" INTEGER REFERENCES "orders" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE ("productId", "orderId"),
+    PRIMARY KEY ("id")
+);
+
 INSERT INTO "products" ("id","title","price","imageUrl","description","createdAt","updatedAt","userId") 
     VALUES (DEFAULT,$1,$2,$3,$4,$5,$6,$7) RETURNING *;
 
