@@ -10,7 +10,8 @@
         <img src="<%= product.imageUrl %>" height="100" width="100">
     </p>
     <p>R$ <%= product.price %></p>
-
+    <% if (isAuthenticated) { %>
     <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+    <% } %>
 
 <%- include('../includes/end.ejs') %>

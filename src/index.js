@@ -27,6 +27,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(cookieParser())
 app.use(
     session({
         secret: 'session_secret',
@@ -34,17 +35,16 @@ app.use(
         saveUninitialized: false
     })
 )
-app.use(cookieParser())
-
 app.use((req, res, next) => {
-    User.findByPk(1)
+    if (!req.session.userId) {
+        return next()
+    }
+    User.findByPk(req.session.userId)
         .then(user => {
-            if (req.session.isLoggedIn) {
-                req.session.user = user
-            }
-            next()
+            req.user = user
+            return next()
         })
-        .catch(err => console.error(err))
+        .catch(err => console.log(err))
 })
 
 app.use('/admin', adminRoutes)

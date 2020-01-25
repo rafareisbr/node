@@ -33,7 +33,7 @@ exports.getProductPage = (req, res) => {
 }
 
 exports.getCartPage = (req, res) => {
-    req.session.user.getCart().then(cart => {
+    req.user.getCart().then(cart => {
         cart.getProducts().then(products => {
             res.render('shop/cart', {
                 pageTitle: 'Your cart',
@@ -48,7 +48,7 @@ exports.postAddProductToCart = (req, res) => {
     const prodId = req.body.productId
     let fetchedCart = null
     let newQuantity = 1
-    req.session.user
+    req.user
         .getCart()
         .then(cart => {
             fetchedCart = cart
@@ -79,7 +79,7 @@ exports.postAddProductToCart = (req, res) => {
 
 exports.postRemoveProductFromCart = (req, res) => {
     const prodId = req.body.productId
-    req.session.user.cart
+    req.user
         .getCart()
         .then(cart => {
             return cart.getProducts({ where: { id: prodId } })
@@ -95,7 +95,7 @@ exports.postRemoveProductFromCart = (req, res) => {
 }
 
 exports.getOrders = (req, res) => {
-    req.session.user
+    req.user
         .getOrders({ include: ['products'] })
         .then(orders => {
             res.render('shop/orders', {
@@ -110,14 +110,14 @@ exports.getOrders = (req, res) => {
 exports.postAddOrder = (req, res) => {
     let fetchedCart = null
 
-    req.session.user
+    req.user
         .getCart()
         .then(cart => {
             fetchedCart = cart
             return cart.getProducts()
         })
         .then(products => {
-            req.session.user
+            req.user
                 .createOrder()
                 .then(order => {
                     return order.addProducts(
