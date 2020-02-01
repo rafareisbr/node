@@ -33,14 +33,22 @@ exports.getProductPage = (req, res) => {
 }
 
 exports.getCartPage = (req, res) => {
-    req.user.getCart().then(cart => {
-        cart.getProducts().then(products => {
-            res.render('shop/cart', {
-                pageTitle: 'Your cart',
-                products: products,
-                isAuthenticated: req.session.isLoggedIn
-            })
+    if(!req.user) {
+        return res.redirect('/')
+    }
+    req.user
+        .getCart()
+        .then(cart => {
+            return cart.getProducts()
+        }).then(products => {
+        res.render('shop/cart', {
+            pageTitle: 'Your cart',
+            products: products,
+            isAuthenticated: req.session.isLoggedIn
         })
+    }).catch(err => {
+        console.log(err)
+        res.redirect('/')
     })
 }
 
@@ -95,6 +103,9 @@ exports.postRemoveProductFromCart = (req, res) => {
 }
 
 exports.getOrders = (req, res) => {
+    if(!req.user) {
+        return res.redirect('/')
+    }
     req.user
         .getOrders({ include: ['products'] })
         .then(orders => {

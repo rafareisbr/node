@@ -36,10 +36,10 @@ app.use(
     })
 )
 app.use((req, res, next) => {
-    if (!req.session.userId) {
+    if (!req.session.user) {
         return next()
     }
-    User.findByPk(req.session.userId)
+    User.findByPk(req.session.user.id)
         .then(user => {
             req.user = user
             return next()
@@ -71,28 +71,28 @@ Order.belongsToMany(Product, { through: OrderItem })
 sequelize
     // .sync({ force: true }) // force overrides the database data, NOT FOR PRODUCTION
     .sync()
-    .then(() => {
-        return User.findByPk(1)
-    })
-    .then(user => {
-        if (!user) {
-            return User.create({ name: 'José', email: 'jose@gmail.com' })
-        }
-        return Promise.resolve(user)
-    })
-    .then(user => {
-        Cart.findByPk(1)
-            .then(cart => {
-                if (!cart) {
-                    Cart.create({ userId: user.id })
-                        .then(() => {})
-                        .catch(err => console.error(err))
-                } else {
-                    return Promise.resolve(cart)
-                }
-            })
-            .catch(err => console.error(err))
-    })
+    // .then(() => {
+    //     return User.findOne()
+    // })
+    // .then(user => {
+    //     if (!user) {
+    //         return User.create({ email: 'jose@gmail.com', password: 123 })
+    //     }
+    //     return Promise.resolve(user)
+    // })
+    // .then(user => {
+    //     user.getCart()
+    //         .then(cart => {
+    //             if (!cart) {
+    //                 Cart.create({ userId: user.id })
+    //                     .then(() => {})
+    //                     .catch(err => console.error(err))
+    //             } else {
+    //                 return Promise.resolve(cart)
+    //             }
+    //         })
+    //         .catch(err => console.error(err))
+    // })
     .then(() => {
         app.listen(port)
     })
