@@ -13,6 +13,9 @@ exports.getProductsListPage = (req, res) => {
 }
 
 exports.getAddProductPage = (req, res) => {
+    if(!req.session.isLoggedIn) {
+        return res.redirect('/auth/login')
+    }
     res.render('admin/product-form', {
         pageTitle: 'Adicionar Produto',
         editing: false,

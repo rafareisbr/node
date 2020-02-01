@@ -1,5 +1,9 @@
 const express = require('express')
 
+// middleware
+const isAuth = require('../middleware/is-auth')
+
+// controller
 const shopController = require('../controllers/shop')
 
 const router = express.Router()
@@ -10,16 +14,16 @@ router.get('/products', shopController.getProductsListPage)
 
 router.get('/products/:productId', shopController.getProductPage)
 
-router.get('/cart', shopController.getCartPage)
+router.get('/cart', isAuth, shopController.getCartPage)
 
-router.post('/cart', shopController.postAddProductToCart)
+router.post('/cart', isAuth, shopController.postAddProductToCart)
 
-router.post('/cart/remove-product', shopController.postRemoveProductFromCart)
+router.post('/cart/remove-product', isAuth, shopController.postRemoveProductFromCart)
 
-router.get('/orders', shopController.getOrders)
+router.get('/orders', isAuth, shopController.getOrders)
 
-router.post('/orders/add-order', shopController.postAddOrder)
+router.post('/orders/add-order', isAuth, shopController.postAddOrder)
 
-router.get('/checkout', shopController.getCheckoutPage)
+router.get('/checkout', isAuth, shopController.getCheckoutPage)
 
 module.exports = router
