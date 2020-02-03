@@ -2,8 +2,7 @@ const Product = require('../models/product')
 
 exports.getIndexPage = (req, res) => {
     res.render('shop/index', {
-        pageTitle: 'Shop',
-        isAuthenticated: req.session.isLoggedIn
+        pageTitle: 'Shop'
     })
 }
 
@@ -12,8 +11,7 @@ exports.getProductsListPage = (req, res) => {
         .then(products => {
             res.render('shop/product-list', {
                 products: products,
-                pageTitle: 'All Products',
-                isAuthenticated: req.session.isLoggedIn
+                pageTitle: 'All Products'
             })
         })
         .catch(err => console.error(err))
@@ -25,31 +23,31 @@ exports.getProductPage = (req, res) => {
         .then(product => {
             res.render('shop/product-detail', {
                 product: product,
-                pageTitle: 'Shop',
-                isAuthenticated: req.session.isLoggedIn
+                pageTitle: 'Shop'
             })
         })
         .catch(err => console.error(err))
 }
 
 exports.getCartPage = (req, res) => {
-    if(!req.user) {
+    if (!req.user) {
         return res.redirect('/')
     }
     req.user
         .getCart()
         .then(cart => {
             return cart.getProducts()
-        }).then(products => {
-        res.render('shop/cart', {
-            pageTitle: 'Your cart',
-            products: products,
-            isAuthenticated: req.session.isLoggedIn
         })
-    }).catch(err => {
-        console.log(err)
-        res.redirect('/')
-    })
+        .then(products => {
+            res.render('shop/cart', {
+                pageTitle: 'Your cart',
+                products: products
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.redirect('/')
+        })
 }
 
 exports.postAddProductToCart = (req, res) => {
@@ -103,7 +101,7 @@ exports.postRemoveProductFromCart = (req, res) => {
 }
 
 exports.getOrders = (req, res) => {
-    if(!req.user) {
+    if (!req.user) {
         return res.redirect('/')
     }
     req.user
@@ -111,8 +109,7 @@ exports.getOrders = (req, res) => {
         .then(orders => {
             res.render('shop/orders', {
                 pageTitle: 'Your Orders',
-                orders: orders,
-                isAuthenticated: req.session.isLoggedIn
+                orders: orders
             })
         })
         .catch(err => console.log(err))
@@ -153,7 +150,6 @@ exports.postAddOrder = (req, res) => {
 
 exports.getCheckoutPage = (req, res) => {
     res.render('shop/checkout', {
-        pageTitle: 'Make your checkout',
-        isAuthenticated: req.session.isLoggedIn
+        pageTitle: 'Make your checkout'
     })
 }

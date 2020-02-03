@@ -2,11 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f81f3915-54f7-4afa-8a1f-4148b8e9aa02" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/middleware/is-auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/shop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/shop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/error.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/error.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/shop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/shop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware/is-auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware/is-auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/auth/login.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/login.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/auth/signup.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/auth/signup.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/includes/navigation.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/includes/navigation.ejs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +60,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1580510299112</updated>
-      <workItem from="1580510311628" duration="7700000" />
+      <workItem from="1580510311628" duration="7819000" />
+      <workItem from="1580674961626" duration="1962000" />
     </task>
     <servers />
   </component>
@@ -64,7 +73,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

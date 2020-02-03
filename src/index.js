@@ -1,10 +1,13 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const path = require('path')
+
+const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const sequelize = require('./database/config')
 const session = require('express-session')
 const helmet = require('helmet')
+const csurf = require('csurf')
+const flash = require('connect-flash')
 
 const User = require('./models/user')
 const Product = require('./models/product')
@@ -35,6 +38,9 @@ app.use(
         saveUninitialized: false
     })
 )
+app.use(csurf())
+app.use(flash())
+
 app.use((req, res, next) => {
     if (!req.session.user) {
         return next()
@@ -45,6 +51,14 @@ app.use((req, res, next) => {
             return next()
         })
         .catch(err => console.log(err))
+})
+
+// Define variáveis que estarão disponíveis em todas as views.
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn
+    res.locals.csrfToken = req.csrfToken()
+    res.locals.errorMessages = req.flash('error')
+    next()
 })
 
 app.use('/admin', adminRoutes)

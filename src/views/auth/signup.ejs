@@ -4,8 +4,15 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
 
+    <% if(errorMessages.length > 0) { %>
+        <div class="message message--error">
+            <%= errorMessages %>
+        </div>
+    <% } %>
+
     <main>
         <form action="/auth/signup" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="text" name="email" placeholder="E-mail">
             <input type="password" name="password" placeholder="Password">
             <input type="password" name="password_confirm" placeholder="Password Confirm">

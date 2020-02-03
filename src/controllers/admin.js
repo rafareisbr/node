@@ -5,22 +5,20 @@ exports.getProductsListPage = (req, res) => {
         .then(products => {
             res.render('admin/product-list', {
                 products: products,
-                pageTitle: 'Admin - Products',
-                isAuthenticated: req.session.isLoggedIn
+                pageTitle: 'Admin - Products'
             })
         })
         .catch(err => console.error(err))
 }
 
 exports.getAddProductPage = (req, res) => {
-    if(!req.session.isLoggedIn) {
+    if (!req.session.isLoggedIn) {
         return res.redirect('/auth/login')
     }
     res.render('admin/product-form', {
         pageTitle: 'Adicionar Produto',
         editing: false,
-        product: Product.build(),
-        isAuthenticated: req.session.isLoggedIn
+        product: Product.build()
     })
 }
 
@@ -52,8 +50,7 @@ exports.getUpdateProductPage = (req, res) => {
             res.render('admin/product-form', {
                 editing: true,
                 pageTitle: 'Editar Produto',
-                product: product,
-                isAuthenticated: req.session.isLoggedIn
+                product: product
             })
         })
         .catch(() => {

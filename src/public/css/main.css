@@ -49,3 +49,12 @@ body {
     border: 1px solid #ccc;
     padding: 1rem;
 }
+
+.message {
+    padding: 20px 50px;
+}
+
+.message--error {
+    background-color: #F6C6CE;
+    border: 1px solid red;
+}
